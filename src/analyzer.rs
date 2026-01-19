@@ -42,6 +42,7 @@ impl LogAnalyzer {
     }
 
     fn extract_top_keywords(&self, limit: usize) -> Vec<(String, usize)> {
+        let stopwords = self.build_stopwords();
         let mut word_counts: HashMap<String, usize> = HashMap::new();
 
         for entry in &self.entries {
@@ -50,7 +51,7 @@ impl LogAnalyzer {
             for word in words {
                 let clean_word = word.trim_matches(|c: char| !c.is_alphanumeric()).to_lowercase();
 
-                if clean_word.len() > 3 {
+                if clean_word.len() > 3 && !stopwords.contains(clean_word.as_str()) {
                     *word_counts.entry(clean_word).or_insert(0) += 1;
                 }
             }
@@ -61,6 +62,13 @@ impl LogAnalyzer {
         sorted.truncate(limit);
 
         sorted
+    }
+
+    fn build_stopwords(&self) -> Vec<&str> {
+        vec![
+            "the", "and", "for", "with", "from", "that", "this", "have", "has",
+            "been", "was", "were", "are", "will", "would", "could", "should",
+        ]
     }
 
     fn calculate_time_range(&self) -> Option<(String, String)> {
