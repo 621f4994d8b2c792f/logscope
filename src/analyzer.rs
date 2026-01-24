@@ -51,7 +51,7 @@ impl LogAnalyzer {
             for word in words {
                 let clean_word = word.trim_matches(|c: char| !c.is_alphanumeric()).to_lowercase();
 
-                if clean_word.len() > 3 && !stopwords.contains(clean_word.as_str()) {
+                if clean_word.len() > 3 && !stopwords.contains(&clean_word.as_str()) {
                     *word_counts.entry(clean_word).or_insert(0) += 1;
                 }
             }
