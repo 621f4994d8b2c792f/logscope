@@ -46,9 +46,7 @@ impl LogAnalyzer {
         let mut word_counts: HashMap<String, usize> = HashMap::new();
 
         for entry in &self.entries {
-            let words: Vec<&str> = entry.message.split_whitespace().collect();
-
-            for word in words {
+            for word in entry.message.split_whitespace() {
                 let clean_word = word.trim_matches(|c: char| !c.is_alphanumeric()).to_lowercase();
 
                 if clean_word.len() > 3 && !stopwords.contains(&clean_word.as_str()) {
@@ -58,14 +56,14 @@ impl LogAnalyzer {
         }
 
         let mut sorted: Vec<_> = word_counts.into_iter().collect();
-        sorted.sort_by(|a, b| b.1.cmp(&a.1));
+        sorted.sort_unstable_by(|a, b| b.1.cmp(&a.1));
         sorted.truncate(limit);
 
         sorted
     }
 
-    fn build_stopwords(&self) -> Vec<&str> {
-        vec![
+    fn build_stopwords(&self) -> &[&str] {
+        &[
             "the", "and", "for", "with", "from", "that", "this", "have", "has",
             "been", "was", "were", "are", "will", "would", "could", "should",
         ]
@@ -76,8 +74,8 @@ impl LogAnalyzer {
             return None;
         }
 
-        let first = &self.entries[0].timestamp;
-        let last = &self.entries[self.entries.len() - 1].timestamp;
+        let first = &self.entries.first()?.timestamp;
+        let last = &self.entries.last()?.timestamp;
 
         Some((
             first.format("%Y-%m-%d %H:%M:%S").to_string(),

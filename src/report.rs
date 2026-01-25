@@ -24,10 +24,10 @@ impl ReportGenerator {
     fn print_level_distribution(&self, analysis: &LogAnalysis) {
         println!("Log Level Distribution:");
 
-        let levels = vec![LogLevel::Info, LogLevel::Warn, LogLevel::Error];
+        let levels = [LogLevel::Info, LogLevel::Warn, LogLevel::Error];
 
-        for level in levels {
-            if let Some(&count) = analysis.level_counts.get(&level) {
+        for level in &levels {
+            if let Some(&count) = analysis.level_counts.get(level) {
                 let percentage = (count as f64 / analysis.total_lines as f64) * 100.0;
                 println!(
                     "  {}: {} ({:.1}%)",

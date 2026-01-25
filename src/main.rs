@@ -23,23 +23,27 @@ fn main() {
         }
     };
 
-    let mut filtered_entries = entries;
-
-    if let Some(ref keyword) = args.keyword {
-        filtered_entries.retain(|entry| entry.message.contains(keyword));
-    }
-
-    if let Some(ref from) = args.from {
-        filtered_entries.retain(|entry| entry.timestamp >= *from);
-    }
-
-    if let Some(ref to) = args.to {
-        filtered_entries.retain(|entry| entry.timestamp <= *to);
-    }
+    let filtered_entries = apply_filters(entries, &args);
 
     let analyzer = LogAnalyzer::new(filtered_entries);
     let analysis = analyzer.analyze();
 
     let generator = ReportGenerator::new();
     generator.generate_report(&args.file_path, &analysis);
+}
+
+fn apply_filters(mut entries: Vec<parser::LogEntry>, args: &Cli) -> Vec<parser::LogEntry> {
+    if let Some(ref keyword) = args.keyword {
+        entries.retain(|entry| entry.message.contains(keyword));
+    }
+
+    if let Some(ref from) = args.from {
+        entries.retain(|entry| entry.timestamp >= *from);
+    }
+
+    if let Some(ref to) = args.to {
+        entries.retain(|entry| entry.timestamp <= *to);
+    }
+
+    entries
 }
