@@ -43,7 +43,7 @@ impl LogAnalyzer {
 
     fn extract_top_keywords(&self, limit: usize) -> Vec<(String, usize)> {
         let stopwords = self.build_stopwords();
-        let mut word_counts: HashMap<String, usize> = HashMap::new();
+        let mut word_counts: HashMap<String, usize> = HashMap::with_capacity(1024);
 
         for entry in &self.entries {
             for word in entry.message.split_whitespace() {

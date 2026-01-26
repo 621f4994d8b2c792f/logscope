@@ -33,17 +33,35 @@ fn main() {
 }
 
 fn apply_filters(mut entries: Vec<parser::LogEntry>, args: &Cli) -> Vec<parser::LogEntry> {
-    if let Some(ref keyword) = args.keyword {
-        entries.retain(|entry| entry.message.contains(keyword));
+    let has_keyword = args.keyword.is_some();
+    let has_from = args.from.is_some();
+    let has_to = args.to.is_some();
+
+    if !has_keyword && !has_from && !has_to {
+        return entries;
     }
 
-    if let Some(ref from) = args.from {
-        entries.retain(|entry| entry.timestamp >= *from);
-    }
+    entries.retain(|entry| {
+        if let Some(ref keyword) = args.keyword {
+            if !entry.message.contains(keyword) {
+                return false;
+            }
+        }
 
-    if let Some(ref to) = args.to {
-        entries.retain(|entry| entry.timestamp <= *to);
-    }
+        if let Some(ref from) = args.from {
+            if entry.timestamp < *from {
+                return false;
+            }
+        }
+
+        if let Some(ref to) = args.to {
+            if entry.timestamp > *to {
+                return false;
+            }
+        }
+
+        true
+    });
 
     entries
 }
