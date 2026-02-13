@@ -1,9 +1,9 @@
 [package]
 name = "logscope"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["621f4994d8b2c792f"]
-description = "A lightweight CLI tool for parsing and analyzing log files"
+description = "A CLI tool for parsing and analyzing log files"
 license = "MIT"
 repository = "https://github.com/621f4994d8b2c792f/logscope"
 keywords = ["cli", "logs", "analysis", "parser", "statistics"]
@@ -12,4 +12,9 @@ categories = ["command-line-utilities", "development-tools"]
 [dependencies]
 clap = { version = "4.5", features = ["derive"] }
 regex = "1.10"
-chrono = "0.4"
+chrono = { version = "0.4", features = ["serde"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+rayon = "1.10"
+colored = "2.1"
+indicatif = "0.17"
