@@ -237,3 +237,36 @@ impl LogParser {
         Some(LogEntry { timestamp, level, message, source, line_number })
     }
 }
+
+impl LogParser {
+    pub fn parse_file_counted(
+        &self,
+        file_path: &str,
+    ) -> Result<(Vec<LogEntry>, usize), std::io::Error> {
+        let file = File::open(file_path)?;
+        let reader = BufReader::new(file);
+
+        let lines: Vec<(usize, String)> = reader
+            .lines()
+            .enumerate()
+            .filter_map(|(i, l)| l.ok().map(|s| (i + 1, s)))
+            .collect();
+
+        let total_non_empty = lines
+            .iter()
+            .filter(|(_, l)| !l.trim().is_empty())
+            .count();
+
+        let entries: Vec<LogEntry> = lines
+            .par_iter()
+            .filter_map(|(num, line)| self.parse_line(line, *num))
+            .collect();
+
+        let mut sorted = entries;
+        sorted.sort_unstable_by_key(|e| e.timestamp);
+
+        let unparsed = total_non_empty.saturating_sub(sorted.len());
+
+        Ok((sorted, unparsed))
+    }
+}
