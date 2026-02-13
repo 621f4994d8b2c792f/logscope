@@ -1,0 +1,18 @@
+{"timestamp":"2026-01-19T08:10:00","level":"info","message":"Service started","service":"api-gateway"}
+{"timestamp":"2026-01-19T08:10:15","level":"info","message":"Connected to database","service":"api-gateway"}
+{"timestamp":"2026-01-19T08:11:02","level":"warn","message":"Response time elevated: 850ms","service":"api-gateway"}
+{"timestamp":"2026-01-19T08:12:30","level":"error","message":"Upstream timeout after 3 retries","service":"api-gateway"}
+{"timestamp":"2026-01-19T08:12:45","level":"error","message":"Circuit breaker opened for db-service","service":"api-gateway"}
+{"timestamp":"2026-01-19T08:12:58","level":"fatal","message":"Memory limit exceeded, shutting down","service":"api-gateway"}
+{"timestamp":"2026-01-19T08:13:10","level":"info","message":"Service restarted","service":"api-gateway"}
+{"timestamp":"2026-01-19T08:14:22","level":"info","message":"Health check passed","service":"api-gateway"}
+{"timestamp":"2026-01-19T08:15:40","level":"warn","message":"Cache miss rate above threshold","service":"api-gateway"}
+{"timestamp":"2026-01-19T08:17:05","level":"error","message":"Failed to authenticate user: token expired","service":"auth"}
+{"timestamp":"2026-01-19T08:18:20","level":"info","message":"User session renewed successfully","service":"auth"}
+{"timestamp":"2026-01-19T08:20:00","level":"warn","message":"Rate limit approaching for client 192.168.1.5","service":"api-gateway"}
+{"timestamp":"2026-01-19T08:21:30","level":"error","message":"Database connection pool exhausted","service":"db-proxy"}
+{"timestamp":"2026-01-19T08:22:10","level":"error","message":"Query timeout on table orders","service":"db-proxy"}
+{"timestamp":"2026-01-19T08:23:00","level":"info","message":"Connection pool recovered","service":"db-proxy"}
+{"timestamp":"2026-01-19T08:25:15","level":"info","message":"Scheduled job completed in 1.2s","service":"worker"}
+{"timestamp":"2026-01-19T08:27:40","level":"warn","message":"Disk usage at 85 percent","service":"monitor"}
+{"timestamp":"2026-01-19T08:30:00","level":"info","message":"Backup snapshot created","service":"backup"}
