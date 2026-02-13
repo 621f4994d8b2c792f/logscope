@@ -1,3 +1,4 @@
+use serde_json;
 use std::fs::File;
 use std::io::{BufWriter, Write};
 
